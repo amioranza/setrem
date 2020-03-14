@@ -1,0 +1,64 @@
+version: '3'
+
+services:
+  influxdb:
+    image: influxdb
+    volumes:
+      - /opt/docker_compose/influxdb:/var/lib/influxdb
+      - /opt/docker_compose/influxdb_config:/etc/influxdb
+    ports:
+      - "8083:8083"
+      - "8086:8086"
+      - "2222:22"
+    environment:
+      - INFLUXDB_DB=jenkins
+      - INFLUXDB_ADMIN_USER=admin
+      - INFLUXDB_ADMIN_PASSWORD=admin
+  jenkins:
+    image: jenkins:target
+    environment: 
+      - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
+    volumes:
+      - /opt/docker_compose/jenkins:/var/jenkins_home
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+      - "2223:22"
+  # jenkins-docker-agent:
+  #   image: jenkins/jnlp-slave 
+  #   environment:
+  #     - JENKINS_AGENT_NAME=docker
+  #     - JENKINS_AGENT_WORKDIR=/home/jenkins/agent 
+  #     - JENKINS_URL=http://192.168.197.100:8080 
+  #     - JENKINS_SECRET=4bcfcf7bd82b4891aea5534613cf8e22e21ec316e73a4fa561a886ff9a50213e
+  #   depends_on:
+  #     - jenkins
+  grafana:
+    image: grafana/grafana
+    volumes:
+      - /opt/docker_compose/grafana:/var/lib/grafana
+    ports:
+      - "3000:3000"
+      - "2224:22"
+    environment:
+      - HTTP_USER=admin
+      - HTTP_PASS=admin
+      - INFLUXDB_HOST=influxdb
+      - INFLUXDB_PORT=8086
+      - INFLUXDB_NAME=jenkins
+      - INFLUXDB_USER=admin
+      - INFLUXDB_PASS=admin
+    depends_on:
+      - influxdb
+  gitlab:
+    image: gitlab/gitlab-ce:latest
+    hostname: "192.168.197.100"
+    volumes:
+      - /opt/docker_compose/gitlab/config:/etc/gitlab
+      - /opt/docker_compose/gitlab/logs:/var/log/gitlab
+      - /opt/docker_compose/gitlab/data:/var/opt/gitlab
+    ports:
+      - "4443:443"
+      - "8088:80"
+      - "2227:22"
+      - "9090:9090"
