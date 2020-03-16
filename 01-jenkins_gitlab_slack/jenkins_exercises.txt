@@ -1,0 +1,160 @@
+# Jenkins + Gitlab Execises
+
+### Configuração inicial do Jenkins
+1 - Na tela inicial do Jenkins acessar a opção Credentials
+2 - Em Stores scoped to Jenkins selecione (global)
+3 - Clique em Add Credentials
+4 - Mantenha as opções Kind e Scope como estão (Username with password / Global)
+5 - Em Username insira root
+6 - Em Password coloque a senha da sua instância do Gitlab
+7 - Em Description coloque Credenciais do Gitlab
+8 - Clique em OK.
+
+
+### Criar pipeline no Jenkins
+
+1 - Criar um projeto novo no gitlab chamado testapp em modo privado e inicialize com um arquivo README.md
+2 - Criar no jenkins um novo item do tipo pipeline com nome testapp
+3 - Em Description insira test Application
+4 - Na parte do Pipeline > Definition selecione Pipeline script from SCM
+4.1 - SCM selecione Git
+4.2 - Em repository URL coloque a URL HTTP de clone do projeto que consta no Gitlab.
+4.3 - Em Credentials selecione a credencial criada no passo de configuração inicial do Jenkins.
+4.4 - Em Branche to build mantenha com a opção */master
+4.5 - Repository Browser mantenha como (Auto)
+4.6 - Manteha Script Path como está: Jenkinsfile
+4.7 - Clique em Save
+5 - Faça o clone do repositório do projeto na raiz da pasta 02: `git clone http://192.168.197.100:8088/root/testapp.git`
+6 - Crie uma arquivo vazio chamado Jenkinsfile dentro da pasta testapp: `touch Jenkinsfile`
+7 - Insira o conteúdo abaixo no arquivo Jenkinsfile:
+### Exemplo de pipeline as code com parâmetros
+pipeline {
+	agent any
+    
+    parameters {
+        string(
+            name: 'Parametro1',
+            defaultValue: '',
+            description: 'Exenplo de parametro.'
+        )
+    }
+    
+    environment {
+        var1 = "EXEMPLO DE VARIAVEL"
+    }
+
+    stages {
+        stage('Pergunta') {
+            input {
+                message "Devo continuar?"
+                ok "Sim, deve."
+                parameters {
+                    string(name: 'PERSON', defaultValue: 'Sr Jenkins', description: 'Para quem eu digo olá?')
+                }
+            }
+            steps {
+                echo "Olá, ${PERSON}, prazer em conhecê-lo."
+            }
+        }
+
+        stage ("Prepare") {
+		    when {
+		        expression {
+		            return "${params.Parametro1}" != '';
+		        }
+		    }
+        	steps {
+                sh("echo ${var1}")
+                sh("ls -Rla")
+                sh("hostname")
+                sh("ping -c10 google.com")
+                sh("[ -e /tmp/teste ] || mkdir /tmp/teste")
+                sh("echo ${params.Parametro1}")
+            }
+        }
+        stage ("Validate") {
+		    when {
+		    	expression {
+		        	return "${params.Parametro1}" != '';
+		        }
+		    }
+		    steps {
+				sh("echo Acabou o Pipeline!!!!!")
+	        }
+        }
+	}
+}
+
+### Configurar jenkins para build automático ao receber updates no gitlab
+No jenkins exeute os passos abaixo:
+1 - Acessar o pipeline testapp
+2 - Clicar em configure
+3 - Em Build Triggers habilitar a opção Build when a change is pushed to GitLab. GitLab webhook URL: http://192.168.197.100:8080/project/testapp
+4 - Clicar em advanced e em Generate para gerar o Secret Token
+
+No Gitlab execute os passos abaixo:
+1 - Acessa aárea de administração do Gitlab e libere o acesso a hooks oriundos da rede local indo em Settings > Network > Outbound requests
+2 - Habilite a opção Allow requests to the local network from hooks and services 
+3 - Volte ao projeto testapp e acesse o menu Settings > Integrations
+4 - Em URL insira a URL que aparece no Jenkins como webhook do pipeline
+5 - Em Secret Token insira o token gerado no Jenkins para esta conexão
+6 - Em Trigger habilite os eventos de Push insira master no campo de texto informando o branch que irá enviar os eventos de push para o Jenkins
+7 - Role a página para baixo e desmrque a opção Enable SSL verfication
+8 - Por fim clique em Add webhook
+9 - Envie um evento de teste de Push clicando em Test logo ao lado do hook recém criado e verificque no Jenkins se o pipeline foi disparado com 
+    a mensagem "Started by Gitlab push by Administrator"
+
+### Slack - Integrations
+1º criar conta Slack
+Adcionar app do Jenkins ci e escolher canal
+Seguir passo-a-passo do site do Slack
+Efetuar teste de conexão depois de configurado o canal
+
+
+def call(Map options = [:]) {
+    node {
+        cleanWs()
+
+        stage ('Checkout') {
+            checkout scm
+        }
+
+        stage('Prepare') {
+            sh("echo Prepare stage...")
+            sh("ls -Rla")
+        }
+
+        stage('Build') {
+            sh("echo Build stage...")
+            sh("hostname")
+        }
+
+        stage('Test') {
+            sh("echo Test stage...")
+            sh("ping -c10 google.com")
+        }
+
+        stage('Deploy') {
+            sh("echo Deploy stage...")
+            sh("[ -e /tmp/teste ] || mkdir /tmp/teste")
+        }
+        
+        stage('Notify') {
+            buildStatus = currentBuild.currentResult ?: 'SUCCESS'
+
+            def emoji = buildStatus == 'SUCCESS' ? ':wink:' : ':sob:';
+            try {
+                slackSend (
+                    channel: '#jenkins',
+                    message: """${emoji} *${env.JOB_NAME}* build#${env.BUILD_NUMBER} ${buildStatus}
+                    Details: ${env.BUILD_URL}""",
+                    rawMessage: true
+                )
+            } catch (e) {
+                echo 'Error trying to send Slack notification: ' + e.toString()
+            }
+
+        }
+
+    }
+}
