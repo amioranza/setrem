@@ -1,187 +1,19 @@
-blueocean
+ansicolor
 build-monitor-plugin
-# build-name-setter
 build-pipeline-plugin
-# build-timeout
-build-user-vars-plugin
-# built-on-column
-checkstyle
-chef
-# cloudbees-bitbucket-branch-source
-# cloudbees-folder
-# cloud-stats
-cloverphp
-# cobertura
-# command-launcher
-conditional-buildstep
-# config-file-provider
 configuration-as-code
-# copyartifact
-# coverity
-crap4j
 credentials
-docker-commons
-docker-custom-build-environment
-dockerhub-notification
-docker-java-api
-docker-plugin
 docker-slaves
-docker-workflow
-dry
-# durable-task
+embeddable-build-status
 email-ext
 emailext-template
 git
 git-changelog
-git-client
-# github
-# github-api
-# github-autostatus
-# github-branch-source
-git-parameter
-git-server
-git-tag-message
 gitlab
 gitlab-hook
 gitlab-merge-request-jenkins
-# gradle
-groovy
-groovy-postbuild
-# handlebars
-# handy-uri-templates-2-api
-htmlpublisher
-# hudson-wsclean-plugin
-# icon-shim
 influxdb
-# ivy
-# jackson2-api
-# javadoc
-# jdk-tool
-jdepend
-# jenkins-design-language
-jenkins-multijob-plugin
-jira
-# job-dsl
-# jquery
-# jquery-detached
-# jsch
-# junit
-# kubernetes
-# kubernetes-cd
-# kubernetes-ci
-# kubernetes-cli
-# kubernetes-credentials
-# kubernetes-pipeline-aggregator
-# kubernetes-pipeline-arquillian-steps
-# kubernetes-pipeline-devops-steps
-# kubernetes-pipeline-steps
-ldap
-# m2release
-# mailer
-# mapdb-api
-# matrix-auth
-# matrix-project
-# maven-artifact-choicelistprovider
-# maven-plugin
-# mercurial
-# metrics
-# momentjs
-# monitoring
-# multiple-scms
-# multi-slave-config-plugin
-# nexus-artifact-uploader
-# nexus-jenkins-plugin
-# nexus-task-runner
-# no-agent-job-purge
-# node-iterator-api
-# nodejs
-# nodelabelparameter
-# openstack-cloud
-pam-auth
-# parameterized-trigger
-# percentage-du-node-column
-performance
-# pipeline-build-step
-# pipeline-github-lib
-# pipeline-graph-analysis
-# pipeline-input-step
-# pipeline-maven
-# pipeline-milestone-step
-# pipeline-model-api
-# pipeline-model-declarative-agent
-# pipeline-model-definition
-pipeline-model-extensions
-pipeline-multibranch-defaults
-pipeline-rest-api
-# pipeline-stage-step
-# pipeline-stage-tags-metadata
-# pipeline-stage-view
-pipeline-utility-steps
-# plain-credentials
-plot
-plugin-usage-plugin
-pmd
-# postbuild-task
-# pry
-# publish-over
-publish-over-ssh
-publish-to-bitbucket
-# pubsub-light
-# purge-build-queue-plugin
-# purge-job-history
-# rake
-# rbenv
-# rebuild
-# release
-# resource-disposer
-rocketchatnotifier
-role-strategy
-ruby
-# rubyMetrics
-# ruby-runtime
-# ruby-runtime
-# run-condition
-# rvm
-# saferestart
-# scm-api
-# scm-sync-configuration
-# script-security
 simple-theme-plugin
-# sinatra-chef-builder
 slack
-# sloccount
 sonar
-# sse-gateway
-ssh
-ssh-agent
-ssh-credentials
-ssh-slaves
-# stashNotifier
-# structs
-# subversion
-# systemloadaverage-monitor
-terraform
-# throttle-concurrents
-timestamper
-# token-macro
 uno-choice
-# variant
-violations
-# violation-comments-to-stash
-vsphere-cloud
-warnings
-# windows-slaves
-workflow-aggregator
-# workflow-api
-# workflow-basic-steps
-# workflow-cps
-# workflow-cps-global-lib
-# workflow-durable-task-step
-# workflow-job
-# workflow-multibranch
-# workflow-scm-step
-# workflow-step-api
-# workflow-support
-ws-cleanup
-xunit
-zap

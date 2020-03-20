@@ -15,24 +15,13 @@ services:
       - INFLUXDB_ADMIN_USER=admin
       - INFLUXDB_ADMIN_PASSWORD=admin
   jenkins:
-    image: jenkins:target
-    environment: 
-      - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
+    image: amioranza/jenkins:v1
     volumes:
       - /opt/docker_compose/jenkins:/var/jenkins_home
     ports:
       - "8080:8080"
       - "50000:50000"
       - "2223:22"
-  # jenkins-docker-agent:
-  #   image: jenkins/jnlp-slave 
-  #   environment:
-  #     - JENKINS_AGENT_NAME=docker
-  #     - JENKINS_AGENT_WORKDIR=/home/jenkins/agent 
-  #     - JENKINS_URL=http://192.168.197.100:8080 
-  #     - JENKINS_SECRET=4bcfcf7bd82b4891aea5534613cf8e22e21ec316e73a4fa561a886ff9a50213e
-  #   depends_on:
-  #     - jenkins
   grafana:
     image: grafana/grafana
     volumes:
