@@ -41,7 +41,6 @@ services:
       - influxdb
   gitlab:
     image: gitlab/gitlab-ce:latest
-    hostname: "192.168.197.100"
     volumes:
       - /opt/docker_compose/gitlab/config:/etc/gitlab
       - /opt/docker_compose/gitlab/logs:/var/log/gitlab
