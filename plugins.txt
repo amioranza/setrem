@@ -17,3 +17,4 @@ simple-theme-plugin
 slack
 sonar
 uno-choice
+workflow-aggregator
