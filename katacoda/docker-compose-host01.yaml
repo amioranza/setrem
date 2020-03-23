@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  jenkins:
+    image: amioranza/jenkins:v1
+    volumes:
+      - /opt/docker_compose/jenkins:/var/jenkins_home
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+      - "2223:22"

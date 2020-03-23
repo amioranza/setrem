@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  gitlab:
+    image: gitlab/gitlab-ce:latest
+    volumes:
+      - /opt/docker_compose/gitlab/config:/etc/gitlab
+      - /opt/docker_compose/gitlab/logs:/var/log/gitlab
+      - /opt/docker_compose/gitlab/data:/var/opt/gitlab
+    ports:
+      - "4443:443"
+      - "8088:80"
+      - "2227:22"
+      - "9090:9090"
