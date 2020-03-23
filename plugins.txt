@@ -12,7 +12,13 @@ git-changelog
 gitlab
 gitlab-hook
 gitlab-merge-request-jenkins
+groovy
+groovy-postbuild
 influxdb
+jenkins-multijob-plugin
+pipeline-model-extensions
+pipeline-multibranch-defaults
+pipeline-rest-api
 simple-theme-plugin
 slack
 sonar
