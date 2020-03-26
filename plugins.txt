@@ -3,6 +3,7 @@ build-monitor-plugin
 build-pipeline-plugin
 configuration-as-code
 credentials
+docker-plugin
 docker-slaves
 embeddable-build-status
 email-ext
@@ -14,13 +15,16 @@ gitlab-hook
 gitlab-merge-request-jenkins
 groovy
 groovy-postbuild
+kubernetes
 influxdb
 jenkins-multijob-plugin
 pipeline-model-extensions
 pipeline-multibranch-defaults
 pipeline-rest-api
+purge-job-history
 simple-theme-plugin
 slack
 sonar
 uno-choice
 workflow-aggregator
+ws-cleanup
