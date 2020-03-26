@@ -41,11 +41,6 @@ spec:
            }
        }
        stage('Test') {
-           agent {
-               docker {
-                   image 'golang'
-               }
-           }
            steps {
                container ('golang') {
                    // Create our project directory.
@@ -76,10 +71,12 @@ spec:
        }
        stage ('Deploy') {
            steps {
+             container ('ansible') {
                script{
                    def image_id = registry + ":$BUILD_NUMBER"
-                   sh "ansible-playbook  playbook.yml --extra-vars \"image_id=${image_id}\""
+                   sh "ansible-playbook  deploy/playbook.yml --extra-vars \"image_id=${image_id}\""
                }
+             }
            }
        }
    }
