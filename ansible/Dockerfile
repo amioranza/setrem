@@ -16,6 +16,6 @@ WORKDIR /ansible
 VOLUME [ "/ansible" ]
 
 # Install ansible
-ARG ANSIBLE_VERSION=2.5
+ARG ANSIBLE_VERSION=2.9
 
 RUN pip install openshift && pip install ansible==$ANSIBLE_VERSION
