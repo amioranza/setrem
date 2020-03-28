@@ -70,7 +70,7 @@ spec:
                 container ('dind') {
                     script {
                         def appimage = docker.build registry + ":$BUILD_NUMBER"
-                        docker.withRegistry('https://registry.setrem.mdcnet.ninja', 'registry') {
+                        docker.withRegistry('https://' + registry, registryCredential) {
                             appimage.push()
                             appimage.push('latest')
                         }
